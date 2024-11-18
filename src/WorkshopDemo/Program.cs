@@ -17,9 +17,12 @@ builder.Services.AddHealthChecks()
 builder.Services.AddSingleton<IFileService, FileService>();
 builder.Services.AddSingleton<IVersionService, VersionService>();
 
- builder.Configuration.AddAzureKeyVault(
-        new Uri($"https://kv-agamings21-{builder.Environment.EnvironmentName}.vault.azure.net/"),
-        new DefaultAzureCredential());
+builder.Configuration.AddAzureKeyVault(
+    new Uri($"https://kv-agamings21-{builder.Environment.EnvironmentName}.vault.azure.net/"),
+    new DefaultAzureCredential());
+
+Console.WriteLine($"My secret value is: {builder.Configuration.GetValue<string>("SomeSecret")}");
+Console.WriteLine($"My connection string value is: {builder.Configuration.GetConnectionString("MyApplication")}");
 
 var app = builder.Build();
 
